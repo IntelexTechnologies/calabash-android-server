@@ -4,22 +4,20 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
-import android.support.test.uiautomator.BySelector;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
-/**
- * Created by rajdeepvarma on 10/12/16.
- */
-public class UiautomatorTouchText implements Action {
+public class UiautomatorSetText implements Action {
     @Override
     public Result execute(String... args) {
         try {
-            UiObject element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().text(args[0]));
-            element.click();
-        } catch (UiObjectNotFoundException e) {
+            String valueToSet = args[0];
+            int instance = Integer.parseInt(args[1]);
+            UiObject element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().className("android.widget.EditText").instance(instance));
+            element.setText(valueToSet);
+        } catch (Exception e) {
             String message = e.getMessage();
             return Result.failedResult(message);
         }
@@ -28,6 +26,6 @@ public class UiautomatorTouchText implements Action {
 
     @Override
     public String key() {
-        return "uiautomator_touch_text";
+        return "uiautomator_set_text";
     }
 }
