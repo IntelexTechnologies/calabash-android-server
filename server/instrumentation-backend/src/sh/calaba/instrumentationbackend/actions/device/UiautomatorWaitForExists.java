@@ -4,39 +4,39 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.support.test.uiautomator.BySelector;
 
 import sh.calaba.instrumentationbackend.InstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
-public class UiautomatorTouchObject implements Action {
+public class UiautomatorWaitForExists implements Action {
     @Override
     public Result execute(String... args) {
         try {
             String className = args[0];
-            String method = args[1];
-            String value = args[2];
-            String modifier = args.length >= 4 ? args[3] : "";
+            long waitMs = Long.parseLong(args[1]);
+            String method = args[2];
+            String value = args[3];
+            UiObject element = null;
             if (method.equals("description")) {
-                UiObject element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().className(className).description(value));
-                if(modifier.equals("TopLeft")) {
-                    element.clickTopLeft();
-                } else {
-                    element.click();
-                }
+                element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().className(className).description(value));
+            }
+            else if (method.equals("text")) {
+                element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().className(className).text(value));
             }
             else {
                 return Result.failedResult("The method " + method + " has not been implemented");
             }
+            return new Result(element.waitForExists(waitMs));
         } catch (Exception e) {
             String message = e.getMessage();
             return Result.failedResult(message);
         }
-        return new Result(true);
     }
 
     @Override
     public String key() {
-        return "uiautomator_touch_object";
+        return "uiautomator_wait_for_exists";
     }
 }
