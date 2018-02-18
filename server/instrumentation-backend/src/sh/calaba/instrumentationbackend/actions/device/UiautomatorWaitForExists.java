@@ -25,6 +25,9 @@ public class UiautomatorWaitForExists implements Action {
             else if (method.equals("text")) {
                 element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().className(className).text(value));
             }
+            else if (method.equals("resourceid")) {
+                element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().resourceId(value));
+            }
             else {
                 return Result.failedResult("The method " + method + " has not been implemented");
             }

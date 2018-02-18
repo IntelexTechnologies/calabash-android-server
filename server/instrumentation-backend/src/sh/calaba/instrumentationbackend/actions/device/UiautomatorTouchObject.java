@@ -24,6 +24,9 @@ public class UiautomatorTouchObject implements Action {
                 } else {
                     element.click();
                 }
+            } else if(method.equals("resourceid")) {
+                UiObject element = InstrumentationBackend.getUiDevice().findObject(new UiSelector().resourceId(value));
+                element.click();
             }
             else {
                 return Result.failedResult("The method " + method + " has not been implemented");
