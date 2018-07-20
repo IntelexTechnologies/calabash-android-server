@@ -35,7 +35,6 @@ import sh.calaba.org.codehaus.jackson.type.TypeReference;
 import android.os.Build;
 import android.text.InputType;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
